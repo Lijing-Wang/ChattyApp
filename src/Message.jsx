@@ -9,7 +9,7 @@ class Message extends Component {
     const mssages = this.props.messageList.map((message) => {
       switch(message.type) {
         case "incomingMessage": 
-          return <UserMessage key={message.id} name={message.username} content={message.content}/>;
+          return <UserMessage key={message.id} name={message.username} content={message.content} color={message.color} />;
           break;
         case "incomingNotification": 
           return <SysMessage notification={message.notification}/>;

@@ -31,6 +31,8 @@ class App extends Component {
       const data = JSON.parse(event.data);
       if (data.type === "clientsNum") {
         this.setState({clientsNum: data.clientsNum});
+      } else  if (data.type === "color") {
+        this.setState({color: data.color});
       } else {
         this.setState({messages: this.state.messages.concat(data)});
       }
