@@ -7,53 +7,62 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentUser: "Bob",
-                  messages: [
-                    { id: 1,
-                      username: "Bob",
-                      content: "Has anyone seen my marbles?"
-                    },
-                    { id: 2,
-                      username: "Anonymous",
-                      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-                    }
-                  ]
-    };
-    this.onKeyUp = this.onKeyUp.bind(this);
+    this.state = {currentUser: "Anomynouse1", messages: [], notifications: []};
+    this.addMessage = this.addMessage.bind(this);
+    this.changeUser = this.changeUser.bind(this);    
+    this.ws = new WebSocket('ws://localhost:3001');
   }
 
   componentDidMount() {
 
-    const ws = new WebSocket('ws://localhost:3001');
-    ws.onopen = () => console.log('Hello Server');
+    this.ws.onopen = () => console.log('Hello Server');
 
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");    
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+      const newMessage = {type: "incomingMessage", id: 0, username: "Michelle", content: "Hello there!"};
       const messages = this.state.messages.concat(newMessage);
       this.setState({messages: messages})
     }, 3000);
+
+    this.setState({currentUser: document.querySelector('.chatbar-username').value});
+
+    this.ws.onmessage =(event) => {
+      const data = JSON.parse(event.data);
+      // if (data.type === "incomingMessage") {
+      //   this.setState({messages: this.state.messages.concat(data)});
+      // }
+      // if (data.type === "incomingNotification") {
+      //   this.setState({messages: this.state.messages.concat(data)});
+      // }
+      this.setState({messages: this.state.messages.concat(data)});
+    };
+    
   }
   
 
-  onKeyUp(event){
-    console.log("keyup handler");    
+  addMessage(event){    
     if (event.key === "Enter") {
-      const newcontent = event.target.value;
-      const newMessage = {id: 4, newUser: "Bob", content: newcontent};
-      const newState = this.state.messages.concat(newMessage);
-      console.log(this.state.messages);
-      this.setState({messages: newState});
+      const newcontent = event.target;
+      const newMessage = {type: "postMessage", username: this.state.currentUser, content: newcontent.value};
+      newcontent.value = '';
+      this.ws.send(JSON.stringify(newMessage));
     }
+  }
+
+  changeUser(event){
+    const oldUser = this.state.currentUser;
+    const newUser = event.target.value;
+    this.setState({currentUser: newUser});
+    this.ws.send(JSON.stringify({type: "postNotification", notification: `${oldUser} changed the name to ${newUser}`}));
   }
 
   render() {
     console.log("Rendering <App/>");
     return (
       <div>
-      <Message messageList={this.state.messages}/>
-      <ChatBar currentUser={this.state.currentUser} onKeyUp={this.onKeyUp}/>
+      <Message messageList={this.state.messages} />
+      <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage} changeUser={this.changeUser}/>
       </div>
 
     );

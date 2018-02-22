@@ -5,9 +5,9 @@ class ChatBar extends Component {
     console.log("Rendering <ChatBar/>");
     
     return (
-      <footer className="chatbar" onKeyUp={this.props.onKeyUp}>
-        <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue={this.props.currentUser}/>
-        <input className="chatbar-message" placeholder="Type a message and hit ENTER" />
+      <footer className="chatbar" >
+        <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue={this.props.currentUser} onBlur={this.props.changeUser}/>
+        <input className="chatbar-message" placeholder="Type a message and hit ENTER" onKeyUp={this.props.addMessage}/>
       </footer>
     );
   }

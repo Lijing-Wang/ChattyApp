@@ -5,7 +5,7 @@ class SysMessage extends Component {
     console.log("Rendering <SysMessage/>");
     return (
         <div className="message system">
-          Anonymous1 changed their name to nomnom.
+          {this.props.notification}
         </div>
     );
   }
