@@ -21,7 +21,7 @@ To experience the smart link feature, here is an example: "Hi! Check out the rea
 
 ### Project Demo
 * Top-right shows how many users are connected. Color for each user is persistent. Many people can send text and link
-![desktop view default](https://github.com/GrinJessie/ChattyApp/blob/master/doc/Screen%20Shot%202018-02-22%20at%208.31.20%20PM.png)
+![desktop view default](https://github.com/GrinJessie/ChattyApp/blob/master/doc/Screen%20Shot%202018-02-23%20at%2012.13.36%20PM.png)
 
 ![Half desktop view default](https://github.com/GrinJessie/ChattyApp/blob/master/doc/Screen%20Shot%202018-02-22%20at%209.44.27%20PM.png)
 
