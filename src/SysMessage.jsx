@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 function SysMessage (props){
-  console.log("Rendering <SysMessage/>");
+  console.log('Rendering <SysMessage/>');
   return (
     <div className="message system">
       {props.notification}
