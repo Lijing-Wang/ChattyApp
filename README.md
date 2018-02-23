@@ -1,45 +1,43 @@
-React Boilerplate
+ChattyApp
 =====================
 
-A minimal and light dev environment for ReactJS.
+A instant-messaging single-page web app built up with ReactJS and WebSocket.
 
-### Usage
+### Features
 
-Clone the boilerplate and create your own git repo.
+* Better user experience created by onBlur event to avoid unecessary key press.
+* Each user will be assigned a color, regardless the change of username. This UI is easier to read message from different users.
+* Support messages containing both text and image link. The app is smart to understand text and link. Messages of this kind will be display in text following by the loaded image from the link.
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+### How to use
 
-Install the dependencies and start the server.
+"npm install" to install the dependencies.
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+To start the server: "npm start" and open http://localhost:3000 in the browser.
 
-### Static Files
+To experience the colored username feature, open and typing in multiple http://localhost:3000 pages.
 
-You can store static files like images, fonts, etc in the `build` folder.
+To experience the smart link feature, here is an example: "Hi! Check it out! http://i.imgur.com/3POtveC.jpg". All you need is an space between text and link. It is also supported if user only type out the link. Note that the link should start with 'http' and ends in 'jpg', 'jpeg', 'png', or 'gif'.
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
+### Project Demo
+* Top-right shows how many users are connected. Color for each user is persistent. Many people can send text and link
+![desktop view default]()
 
 ### Dependencies
 
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+* babel-core
+* babel-loader
+* babel-preset-es2015
+* babel-preset-react
+* css-loader
+* node-sass
+* sass-loader
+* sockjs-client
+* style-loader
+* webpack
+* webpack-dev-server
+* react
+* react-dom
+* express
+* ws
+* uuid
