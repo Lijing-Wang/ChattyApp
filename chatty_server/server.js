@@ -61,7 +61,7 @@ wss.on('connection', (ws) => {
 
   //check picture url in message content using regular expressions
   const checkPicSrc = (data) => {
-    const match = data.content.toLowerCase().match('http:\/\/.+?\.jpg|jpeg|png|gif');
+    const match = data.content.toLowerCase().match('http:|https:\/\/.+?\.jpg|jpeg|png|gif');
     const imgSrc = match ? match[0] : null;
     let updatedContent;
     if (imgSrc) {
