@@ -23,11 +23,11 @@ const genereateId = (() => {
 
 //set id and color for unique ws client once connection set up
 
-const setClient = ((ws) => {
-  const colors = ["#008E9B", "#B39CD0", "#C34A36", "#D5CABD"];
+const identifyClient = ((ws) => {
+  const colors = ['#008E9B', '#B39CD0', '#C34A36', '#D5CABD'];
   return (ws) => {
     if (!ws.id) {
-      id = genereateId();
+      const id = genereateId();
       ws.id = id;
       ws.color = colors[id];
     }
@@ -41,7 +41,7 @@ const findColor = (ws) => {
       return ws.color;
       break;
     }
-  };
+  }
 };
 
 wss.on('connection', (ws) => {
@@ -56,16 +56,16 @@ wss.on('connection', (ws) => {
   //count the number of connections/clients once connection is ready
   const updateClientsNum = () => {
     let clientsNum = wss.clients.size;
-    wss.broadcast(JSON.stringify({type: "clientsNum", clientsNum: clientsNum}));
+    wss.broadcast(JSON.stringify({type: 'clientsNum', clientsNum: clientsNum}));
   };
 
-  //check picture url in message content
-  const checkPicture = (data) => {
-    const match = data.content.match("http:\/\/.+?\.jpg|jpeg|png|gif");
+  //check picture url in message content using regular expressions
+  const checkPicSrc = (data) => {
+    const match = data.content.match('http:\/\/.+?\.jpg|jpeg|png|gif');
     const imgSrc = match ? match[0] : null;
     let updatedContent;
     if (imgSrc) {
-      updatedContent = data.content.split("").splice(0, match.index - 1).join("");
+      updatedContent = data.content.split('').splice(0, match.index - 1).join('');
     }
     return {
       imgSrc: imgSrc,
@@ -74,21 +74,21 @@ wss.on('connection', (ws) => {
   };
 
   updateClientsNum();
-  setClient(ws);
+  identifyClient(ws);
 
   ws.on('message', (incomingData)=>{
     let data = JSON.parse(incomingData);
-    if (data.type === "postMessage") {
-      const result = checkPicture(data);
+    if (data.type === 'postMessage') {
+      const result = checkPicSrc(data);
       data.id = uuidv4(),
-      data.type = "incomingMessage",
+      data.type = 'incomingMessage',
       data.color = findColor(ws),
       data.content = result.updatedContent,
       data.imgSrc = result.imgSrc
       wss.broadcast(JSON.stringify(data));
     }
-    if (data.type === "postNotification"){
-      data.type = "incomingNotification";
+    if (data.type === 'postNotification'){
+      data.type = 'incomingNotification';
       wss.broadcast(JSON.stringify(data));
     }
   });
