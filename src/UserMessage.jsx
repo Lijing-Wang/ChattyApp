@@ -7,8 +7,10 @@ function UserMessage (props){
   return (
     <div className="message">
       <span className="message-username" style={{ color: props.color }}>{props.name} </span>
-      <span className="message-content">{props.content}</span>
-      {props.imgSrc && <img src={props.imgSrc} className="chat-img" />}
+      <span className="message-content">{props.content}
+        {props.imgSrc && <div><img src={props.imgSrc} className="chat-img" /></div>}
+      </span>
+
     </div>
   );
 }
