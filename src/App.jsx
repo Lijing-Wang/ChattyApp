@@ -3,15 +3,13 @@ import ChatBar from './ChatBar.jsx';
 import Message from './Message.jsx';
 import NavBar from './NavBar.jsx';
 
-
-
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {currentUser: "Anomynouse1", messages: [], clientsNum: []};
     this.addMessage = this.addMessage.bind(this);
-    this.changeUser = this.changeUser.bind(this);    
+    this.changeUser = this.changeUser.bind(this);
     this.ws = new WebSocket('ws://localhost:3001');
   }
 
@@ -21,7 +19,7 @@ class App extends Component {
 
     console.log("componentDidMount <App />");
     setTimeout(() => {
-      console.log("Simulating incoming message");    
+      console.log("Simulating incoming message");
       const newMessage = {type: "incomingMessage", id: 0, username: "Michelle", content: "Hello there!"};
       const messages = this.state.messages.concat(newMessage);
       this.setState({messages: messages})
@@ -31,19 +29,16 @@ class App extends Component {
       const data = JSON.parse(event.data);
       if (data.type === "clientsNum") {
         this.setState({clientsNum: data.clientsNum});
-      } else  if (data.type === "color") {
-        this.setState({color: data.color});
       } else {
         this.setState({messages: this.state.messages.concat(data)});
       }
     };
-    
-  }
-  
 
-  addMessage(newcontent){    
-    const newMessage = {type: "postMessage", username: this.state.currentUser, content: newcontent.value};
-    newcontent.value = '';
+  }
+
+  addMessage(newContent){
+    const newMessage = {type: "postMessage", username: this.state.currentUser, content: newContent.value};
+    newContent.value = '';
     this.ws.send(JSON.stringify(newMessage));
   }
 
