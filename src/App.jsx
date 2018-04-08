@@ -9,16 +9,20 @@ class App extends Component {
     super(props);
     this.state = {
       username: null,
+      color: null,
       enterRoom: false
     };
     this.submitUsername = this.submitUsername.bind(this);
     this.enterRoom = this.enterRoom.bind(this);
-
+    this.generateColor = this.generateColor.bind(this);
   }
 
   submitUsername(e){
     e.preventDefault();
-    this.setState({username: e.target.elements[0].value });
+    this.setState({
+      username: e.target.elements[0].value,
+      color: this.generateColor()
+    });
   }
 
   enterRoom(e){
@@ -26,38 +30,50 @@ class App extends Component {
     this.setState({ enterRoom: true});
   }
 
-  render(){
+  generateColor(){
+    const elements = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++){
+      let index = Math.floor(Math.random() * 16);
+      color += elements[index];
+    }
+    return color;
+  }
 
+  render(){
+    //if ready to enterRoom, redirect to chatroom component
     if (this.state.enterRoom) {
       return (
-        <ChatRoom username={this.state.username}/>
+        <ChatRoom username={this.state.username} color={this.state.color}/>
       )
     }
 
     if (this.state.username) {
       const avatar = `https://api.adorable.io/avatars/153/${this.state.username}`
       return (
-        <div className="card container">
+        <div className="card">
           <img className="card-img-top" src={avatar} alt="Card image cap" />
             <div className="card-body">
-              <p className="card-text">{this.state.username}</p>
+              <p className="card-text"> Join the chat room as {this.state.username}</p>
             </div>
-          <button type="button" className="btn btn-success" onClick={this.enterRoom}>Go!</button>
+          <button type="button" className="btn btn-info" onClick={this.enterRoom}>Go!</button>
         </div>
       )
     } else {
       return (
-        <form onSubmit={this.submitUsername}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input type="text"
-                  className="form-control"
-                  id="username"
-                  aria-describedby="usernameHelp"
-                  placeholder="Enter username" />
-          </div>
-          <button type="Ready!" className="btn btn-primary" >Submit</button>
-        </form>
+        <div className="container">
+          <form onSubmit={this.submitUsername}>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input type="text"
+                    className="form-control"
+                    id="username"
+                    aria-describedby="usernameHelp"
+                    placeholder="Enter username" />
+            </div>
+            <button type="submit" className="btn btn-secondary" >Ready!</button>
+          </form>
+        </div>
       )
     }
 

@@ -9,6 +9,7 @@ class ChatRoom extends Component {
     super(props);
     this.state = {
       currentUser: props.username,
+      color: props.color,
       messages: [],
       clientsNum: []
     };
@@ -60,9 +61,13 @@ class ChatRoom extends Component {
     console.log('Rendering <ChartRoom/>');
     return (
       <div>
-      <NavBar number={this.state.clientsNum}/>
+        <NavBar color={this.state.color}
+                number={this.state.clientsNum}/>
       <Message messageList={this.state.messages} />
-      <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage} changeUser={this.changeUser}/>
+      <ChatBar color={this.state.color}
+              currentUser={this.state.currentUser}
+              addMessage={this.addMessage}
+              changeUser={this.changeUser}/>
       </div>
 
     );
