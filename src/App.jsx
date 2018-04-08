@@ -1,67 +1,68 @@
-import React, {Component} from 'react';
-import ChatBar from './ChatBar.jsx';
-import Message from './Message.jsx';
-import NavBar from './NavBar.jsx';
+import React, { Component } from 'react';
+import ChatRoom from './ChatRoom.jsx';
 
+//generate avatar and enter chatroom
+//if no username, ask for input in a form and generator avatar
+//if username exists, show avatar, go button to enter room, pass username as props
 class App extends Component {
-
-  constructor(props) {
+  constructor(props){
     super(props);
-    this.state = {currentUser: 'Anomynouse1', messages: [], clientsNum: []};
-    this.addMessage = this.addMessage.bind(this);
-    this.changeUser = this.changeUser.bind(this);
-    this.ws = new WebSocket('ws://localhost:3001');
-  }
-
-  componentDidMount() {
-
-    this.ws.onopen = () => console.log('Hello Server');
-
-    console.log('componentDidMount <App />');
-    setTimeout(() => {
-      console.log('Simulating incoming message');
-      const newMessage = {type: 'incomingMessage', id: 0, username: 'Michelle', content: 'Hello there!'};
-      const messages = this.state.messages.concat(newMessage);
-      this.setState({messages: messages})
-    }, 3000);
-
-    this.ws.onmessage =(event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === 'clientsNum') {
-        this.setState({clientsNum: data.clientsNum});
-      } else {
-        this.setState({messages: this.state.messages.concat(data)});
-      }
+    this.state = {
+      username: null,
+      enterRoom: false
     };
+    this.submitUsername = this.submitUsername.bind(this);
+    this.enterRoom = this.enterRoom.bind(this);
 
   }
 
-  //enter key validation is done on the target component and pass the value up to root components
-  addMessage(newContent){
-    const newMessage = {type: 'postMessage', username: this.state.currentUser, content: newContent.value};
-    newContent.value = '';
-    this.ws.send(JSON.stringify(newMessage));
+  submitUsername(e){
+    e.preventDefault();
+    this.setState({username: e.target.elements[0].value });
   }
 
-  //For better user experience(going from username input to message input without press enter key)
-  //I use onBlur event instead of onKeyUp
-  changeUser(event){
-    const oldUser = this.state.currentUser;
-    const newUser = event.target.value;
-    this.setState({currentUser: newUser});
-    this.ws.send(JSON.stringify({type: 'postNotification', notification: `${oldUser} changed the name to ${newUser}`}));
+  enterRoom(e){
+    e.preventDefault();
+    this.setState({ enterRoom: true});
   }
 
-  render() {
-    console.log('Rendering <App/>');
-    return (
-      <div>
-      <NavBar number={this.state.clientsNum}/>
-      <Message messageList={this.state.messages} />
-      <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage} changeUser={this.changeUser}/>
-      </div>
+  render(){
 
-    );
+    if (this.state.enterRoom) {
+      return (
+        <ChatRoom username={this.state.username}/>
+      )
+    }
+
+    if (this.state.username) {
+      const avatar = `https://api.adorable.io/avatars/153/${this.state.username}`
+      return (
+        <div className="card container">
+          <img className="card-img-top" src={avatar} alt="Card image cap" />
+            <div className="card-body">
+              <p className="card-text">{this.state.username}</p>
+            </div>
+          <button type="button" className="btn btn-success" onClick={this.enterRoom}>Go!</button>
+        </div>
+      )
+    } else {
+      return (
+        <form onSubmit={this.submitUsername}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input type="text"
+                  className="form-control"
+                  id="username"
+                  aria-describedby="usernameHelp"
+                  placeholder="Enter username" />
+          </div>
+          <button type="Ready!" className="btn btn-primary" >Submit</button>
+        </form>
+      )
+    }
+
   }
+
 }
+
 export default App;
