@@ -13,8 +13,11 @@ function ChatBar(props) {
     backgroundColor: props.color
   };
 
+  const avatar = `https://api.adorable.io/avatars/30/${props.currentUser}`;
+
   return (
-    <footer className="chatbar" style={bgcolor}>
+    <footer className="chatbar">
+      <img className="chatbar-avatar" src={avatar} />
       <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue={props.currentUser} onBlur={props.changeUser} />
       <input className="chatbar-message" placeholder="Type a message and hit ENTER" onKeyUp={onKeyUp} />
     </footer>

@@ -10,24 +10,28 @@ body {
 }
 
 .chatbar {
-  // background: tomato;
-  border-top: 1px solid black;
+  background-color: CadetBlue;
   bottom: 0;
   display: flex;
   left: 0;
   padding: 5px;
   position: fixed;
   right: 0;
+  align-items: center;
 }
 
 .chatbar-message,
 .chatbar-username {
-  border: 1px solid black;
+  background: snow;
+  // border: 1px solid black;
   display: block;
   height: 40px;
   line-height: 40px;
   margin: 5px;
-  padding: 0 9px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 1em;
+
 }
 
 .chatbar-message {
@@ -65,8 +69,8 @@ body {
 }
 
 .navbar {
-  // background: tomato;
-  border-bottom: 1px solid black;
+  // border-bottom: 1px solid black;
+  background-color: CadetBlue;
   height: 60px;
   left: 0;
   padding: 0 10px;
@@ -76,20 +80,20 @@ body {
 }
 
 .navbar-brand {
-  color: inherit;
+  color: linen;
   display: block;
   float: left;
   font-weight: 700;
   font-size: 28px;
   height: 60px;
   line-height: 60px;
-  padding: 0 10px;
   text-decoration: none;
 }
 
 .nav-number {
   float: right;
   margin-top: 1.5em;
+  color: linen;
 }
 
 .chat-img {

@@ -1,6 +1,12 @@
 // This is the top-level scss file. Import all other files in here.
 @import 'home';
 
+body, html {
+  height: 100%;
+  background-color: whitesmoke;
+  color: darkslategray;
+}
+
 .card {
   width: 18rem;
   margin:auto;
@@ -8,5 +14,12 @@
 
 .container {
   width: 30%;
+}
+
+.chatbar-avatar {
+  border-radius: 38%;
+  height: 30px;
+  width: auto;
+  align-items: center;
 }
 

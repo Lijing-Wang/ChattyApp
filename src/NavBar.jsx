@@ -9,8 +9,8 @@ function NavBar (props){
   };
 
   return (
-    <nav className="navbar" style={bgcolor}>
-      <a href="/" className="navbar-brand">Chatty</a>
+    <nav className="navbar">
+      <p className="navbar-brand">Chatty</p>
       <p className="nav-number">{props.number} users online</p>
     </nav>
   );
