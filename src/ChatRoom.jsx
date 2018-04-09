@@ -81,7 +81,7 @@ class ChatRoom extends Component {
         <div className="row">
           <Message messageList={this.state.messages} />
           <Userlist userslist={this.state.clientsList} number={this.state.clientsNum}/>
-          </div>
+        </div>
         <ChatBar currentUser={this.state.currentUser}
                 addMessage={this.addMessage}
                 changeUser={this.changeUser}/>

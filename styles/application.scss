@@ -2,7 +2,7 @@
 @import 'home';
 
 body, html {
-  height: 100%;
+  height: 85%;
   background-color: whitesmoke;
   color: darkslategray;
 }
@@ -30,10 +30,31 @@ body, html {
   margin-right: 1em;
 }
 
-.userslist {
+.userslist > li {
   list-style: none;
+  margin-bottom: 0.5em;
 }
 
 .userslist-container {
-  border-left: 1px solid black;
+  // border-left: 1px solid black;
+  background-color: lightslategray;
+  position: fixed;
+  right: 0;
+  top: 60px;
+  bottom: 60px;
+  padding-top: 15px;
+  width: 15%;
+  font-weight: 520;
+  border-left: 1px solid gray;
+}
+
+.row {
+  margin: 0 2.5em;
+}
+
+.messages {
+    position: fixed;
+    top: 75px;
+    bottom: 60px;
+    overflow-y: scroll;
 }
