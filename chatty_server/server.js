@@ -78,13 +78,7 @@ wss.on('connection', (ws) => {
   };
 
   const identifyClient = (data) => {
-    // if (!ws.username) {
-      console.log('data', data);
       ws.username = data.newUser;
-      console.log('ws username', ws.username);
-    // } else {
-    //   ws.username = data.newUser;
-    // }
   };
 
   const trackClients = () => {
@@ -102,7 +96,8 @@ wss.on('connection', (ws) => {
 
   //check picture url in message content using regular expressions
   const checkPicSrc = (data) => {
-    const match = data.content.toLowerCase().match('http:|https:\/\/.+?\.jpg|jpeg|png|gif');
+    const match = data.content.toLowerCase().match('http:\/\/.+?\.jpg|jpeg|png|gif|https:\/\/.+?\.jpg|jpeg|png|gif');
+    console.log('match is ', match);
     const imgSrc = match ? match[0] : null;
     let updatedContent;
     if (imgSrc) {
@@ -143,6 +138,7 @@ wss.on('connection', (ws) => {
   //update the number of connections
   ws.on('close', ()=>{
     updateClientsNum();
+    trackClients();
     console.log('Client disconnected');
   });
 });
