@@ -29,10 +29,11 @@ in both root directory and "chatty-server" folder.
 ### Project Demo
 * Enter the chat room
 ![desktop view default](https://github.com/GrinJessie/ChattyApp/blob/master/doc/enterRoom.gif)
-
+* Chat with others
 ![chat with others](https://github.com/GrinJessie/ChattyApp/blob/master/doc/chat.gif)
-
+* Share a picture
 ![share a pic](https://github.com/GrinJessie/ChattyApp/blob/master/doc/pic.gif)
+* Leave the room
 ![leave the room](https://github.com/GrinJessie/ChattyApp/blob/master/doc/close.gif)
 
 
