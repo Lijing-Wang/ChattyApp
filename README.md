@@ -27,10 +27,14 @@ in both root directory and "chatty-server" folder.
 - Try the smart link feature! Here is an example: "Hi! Check out the real Rubber Duck! https://cottagelife.com/wp-content/uploads/2017/04/ducky.jpg". It is also supported if a user only types out the link without other text. Note that the link should start with 'HTTP' or 'HTTPS and ends in 'jpg', 'jpeg', 'png', or 'gif'.
 
 ### Project Demo
-* TTop-right shows how many users are connected. Color for each user is persistent. Many people can send text and link
-![desktop view default](https://github.com/GrinJessie/ChattyApp/blob/master/doc/Screen%20Shot%202018-02-23%20at%2012.13.36%20PM.png)
+* Enter the chat room
+![desktop view default](https://github.com/GrinJessie/ChattyApp/blob/master/doc/enterRoom.gif)
 
-![Half desktop view default](https://github.com/GrinJessie/ChattyApp/blob/master/doc/Screen%20Shot%202018-02-22%20at%209.44.27%20PM.png)
+![chat with others](https://github.com/GrinJessie/ChattyApp/blob/master/doc/chat.gif)
+
+![share a pic](https://github.com/GrinJessie/ChattyApp/blob/master/doc/pic.gif)
+![leave the room](https://github.com/GrinJessie/ChattyApp/blob/master/doc/close.gif)
+
 
 ### Dependencies
 
