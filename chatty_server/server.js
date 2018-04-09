@@ -64,6 +64,7 @@ const assignColor = (ws) => {
 wss.on('connection', (ws) => {
   console.log('Client connected');
 
+  //definde broadcase method
   wss.broadcast = (data) => {
     wss.clients.forEach((client) => {
       client.readyState === ws.OPEN && client.send(data);
@@ -73,8 +74,23 @@ wss.on('connection', (ws) => {
   //count the number of connections/clients once connection is ready
   const updateClientsNum = () => {
     let clientsNum = wss.clients.size;
-    wss.broadcast(JSON.stringify({type: 'clientsNum', clientsNum: clientsNum}));
+    wss.broadcast(JSON.stringify({ type: 'clientsNum', clientsNum: clientsNum}));
   };
+
+  const identifyClient = (data) => {
+    if (!ws.username) {
+      ws.username = data.newUser;
+    }
+  };
+
+  const trackClients = () => {
+    let clientsList = [];
+    wss.clients.forEach((client) => {
+      clientsList.push(client.username);
+    });
+    wss.broadcast(JSON.stringify({ type: 'clientsList', clientsList: clientsList}));
+
+  }
 
   //check picture url in message content using regular expressions
   const checkPicSrc = (data) => {
@@ -90,12 +106,16 @@ wss.on('connection', (ws) => {
     }
   };
 
-  updateClientsNum();
   // identifyClient(ws);
+  updateClientsNum();
   assignColor(ws);
 
   ws.on('message', (incomingData)=>{
     let data = JSON.parse(incomingData);
+    if (data.type === 'identifier') {
+      identifyClient(data);
+      trackClients();
+    }
     if (data.type === 'postMessage') {
       const result = checkPicSrc(data);
       data.id = uuidv4(),

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import Message from './Message.jsx';
 import NavBar from './NavBar.jsx';
+import Userlist from './Userlist.jsx';
 
 class ChatRoom extends Component {
 
@@ -11,7 +12,8 @@ class ChatRoom extends Component {
       currentUser: props.username,
       color: props.color,
       messages: [],
-      clientsNum: []
+      clientsNum: null,
+      clientsList: []
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUser = this.changeUser.bind(this);
@@ -20,7 +22,15 @@ class ChatRoom extends Component {
 
   componentDidMount() {
 
-    this.ws.onopen = () => console.log('Hello Server');
+    this.ws.onopen = () => {
+      const data = {
+        type: 'identifier',
+        clientsList: this.state.clientsList,
+        newUser: this.state.currentUser
+      }
+      console.log('send username through ws', data);
+      this.ws.send(JSON.stringify(data));
+    };
 
     console.log('componentDidMount <ChatRoom />');
     setTimeout(() => {
@@ -32,12 +42,18 @@ class ChatRoom extends Component {
 
     this.ws.onmessage =(event) => {
       const data = JSON.parse(event.data);
-      if (data.type === 'clientsNum') {
-        this.setState({clientsNum: data.clientsNum});
-      } else {
-        this.setState({messages: this.state.messages.concat(data)});
+      switch (data.type) {
+        case 'clientsNum':
+          this.setState({ clientsNum: data.clientsNum });
+          break;
+        case 'clientsList':
+          this.setState({ clientsList: data.clientsList});
+          break;
+        default:
+          this.setState({ messages: this.state.messages.concat(data) });
       }
     };
+
 
   }
 
@@ -62,7 +78,10 @@ class ChatRoom extends Component {
     return (
       <div>
         <NavBar number={this.state.clientsNum}/>
-        <Message messageList={this.state.messages} />
+        <div className="row">
+          <Message messageList={this.state.messages} />
+          <Userlist userslist={this.state.clientsList}/>
+          </div>
         <ChatBar currentUser={this.state.currentUser}
                 addMessage={this.addMessage}
                 changeUser={this.changeUser}/>

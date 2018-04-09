@@ -24,7 +24,7 @@ function Message (props){
   });
   console.log('Rendering <Message/>');
   return (
-    <main className='messages'>
+    <main className='messages col-md-9 h-100'>
       {mssages}
     </main>
   );
