@@ -10,6 +10,7 @@ function Message (props){
       case 'incomingMessage':
         return <UserMessage key={message.id}
                             name={message.username}
+                            avatar={`https://api.adorable.io/avatars/30/${message.username}`}
                             content={message.content}
                             color={message.color}
                             imgSrc={message.imgSrc} />;

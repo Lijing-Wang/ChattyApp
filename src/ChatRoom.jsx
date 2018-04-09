@@ -62,8 +62,7 @@ class ChatRoom extends Component {
     return (
       <div>
         <NavBar number={this.state.clientsNum}/>
-        <Message messageList={this.state.messages}
-                color={this.state.color}/>
+        <Message messageList={this.state.messages} />
         <ChatBar currentUser={this.state.currentUser}
                 addMessage={this.addMessage}
                 changeUser={this.changeUser}/>
