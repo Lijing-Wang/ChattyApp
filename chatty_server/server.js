@@ -78,15 +78,23 @@ wss.on('connection', (ws) => {
   };
 
   const identifyClient = (data) => {
-    if (!ws.username) {
+    // if (!ws.username) {
+      console.log('data', data);
       ws.username = data.newUser;
-    }
+      console.log('ws username', ws.username);
+    // } else {
+    //   ws.username = data.newUser;
+    // }
   };
 
   const trackClients = () => {
     let clientsList = [];
     wss.clients.forEach((client) => {
-      clientsList.push(client.username);
+      const clientInfo = {
+        name: client.username,
+        color: client.color
+      }
+      clientsList.push(clientInfo);
     });
     wss.broadcast(JSON.stringify({ type: 'clientsList', clientsList: clientsList}));
 

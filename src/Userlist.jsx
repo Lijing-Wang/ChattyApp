@@ -5,8 +5,10 @@ function Userlist (props) {
   if (props.userslist.length){
     list = props.userslist.map((user)=>{
       return (
-      <li>
-          {user} <img className="message-avatar" src={`https://api.adorable.io/avatars/30/${user}`}/>
+        <li style={{color: user.color}} >
+          <img className="message-avatar"
+                src={`https://api.adorable.io/avatars/30/${user.name}`}/>
+          {user.name}
       </li>
       )
     })
@@ -16,7 +18,7 @@ function Userlist (props) {
 
   return (
     <div className="col-md-3 userslist-container">
-    <p>Current users: </p>
+    <p>Currently, {props.number} user in the room:</p>
       <ul className="userslist">
         {list}
       </ul>

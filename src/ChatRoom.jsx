@@ -25,7 +25,6 @@ class ChatRoom extends Component {
     this.ws.onopen = () => {
       const data = {
         type: 'identifier',
-        clientsList: this.state.clientsList,
         newUser: this.state.currentUser
       }
       console.log('send username through ws', data);
@@ -71,16 +70,17 @@ class ChatRoom extends Component {
     const newUser = event.target.value;
     this.setState({currentUser: newUser});
     this.ws.send(JSON.stringify({type: 'postNotification', notification: `${oldUser} changed the name to ${newUser}`}));
+    this.ws.send(JSON.stringify({ type: 'identifier', newUser: newUser, oldUser: oldUser}));
   }
 
   render() {
     console.log('Rendering <ChartRoom/>');
     return (
       <div>
-        <NavBar number={this.state.clientsNum}/>
+        <NavBar />
         <div className="row">
           <Message messageList={this.state.messages} />
-          <Userlist userslist={this.state.clientsList}/>
+          <Userlist userslist={this.state.clientsList} number={this.state.clientsNum}/>
           </div>
         <ChatBar currentUser={this.state.currentUser}
                 addMessage={this.addMessage}
