@@ -8,7 +8,11 @@ function Message (props){
   const mssages = props.messageList.map((message) => {
     switch (message.type) {
       case 'incomingMessage':
-        return <UserMessage key={message.id} name={message.username} content={message.content} color={message.color} imgSrc={message.imgSrc} />;
+        return <UserMessage key={message.id}
+                            name={message.username}
+                            content={message.content}
+                            color={message.color}
+                            imgSrc={message.imgSrc} />;
         break;
       case 'incomingNotification':
         return <SysMessage notification={message.notification} />;

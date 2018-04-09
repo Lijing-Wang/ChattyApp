@@ -61,11 +61,10 @@ class ChatRoom extends Component {
     console.log('Rendering <ChartRoom/>');
     return (
       <div>
-        <NavBar
-                number={this.state.clientsNum}/>
-        <Message messageList={this.state.messages} />
-        <ChatBar color={this.state.color}
-                currentUser={this.state.currentUser}
+        <NavBar number={this.state.clientsNum}/>
+        <Message messageList={this.state.messages}
+                color={this.state.color}/>
+        <ChatBar currentUser={this.state.currentUser}
                 addMessage={this.addMessage}
                 changeUser={this.changeUser}/>
       </div>

@@ -14,14 +14,14 @@ class App extends Component {
     };
     this.submitUsername = this.submitUsername.bind(this);
     this.enterRoom = this.enterRoom.bind(this);
-    this.generateColor = this.generateColor.bind(this);
+    // this.generateColor = this.generateColor.bind(this);
   }
 
   submitUsername(e){
     e.preventDefault();
     this.setState({
       username: e.target.elements[0].value,
-      color: this.generateColor()
+      // color: this.generateColor()
     });
   }
 
@@ -30,15 +30,15 @@ class App extends Component {
     this.setState({ enterRoom: true});
   }
 
-  generateColor(){
-    const elements = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++){
-      let index = Math.floor(Math.random() * 16);
-      color += elements[index];
-    }
-    return color;
-  }
+  // generateColor(){
+  //   const elements = '0123456789ABCDEF';
+  //   let color = '#';
+  //   for (let i = 0; i < 6; i++){
+  //     let index = Math.floor(Math.random() * 16);
+  //     color += elements[index];
+  //   }
+  //   return color;
+  // }
 
   render(){
     //if ready to enterRoom, redirect to chatroom component

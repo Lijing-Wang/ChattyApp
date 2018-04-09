@@ -10,39 +10,56 @@ const server = express()
 const wss = new SocketServer({server});
 
 //generate number between 1-4 to decide colors
-const genereateId = (() => {
-  let id = -1;
-  return () => {
-    if (id === 3){
-      id = -1;
-    }
-    id ++;
-    return id;
+// const genereateId = (() => {
+//   let id = -1;
+//   return () => {
+//     if (id === 3){
+//       id = -1;
+//     }
+//     id ++;
+//     return id;
+//   }
+// })();
+
+
+const generateColor = () => {
+  const elements = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++){
+    let index = Math.floor(Math.random() * 16);
+    color += elements[index];
   }
-})();
+  return color;
+};
 
 //set id and color for unique ws client once connection set up
 
-const identifyClient = ((ws) => {
-  const colors = ['#008E9B', '#B39CD0', '#C34A36', '#D5CABD'];
-  return (ws) => {
-    if (!ws.id) {
-      const id = genereateId();
-      ws.id = id;
-      ws.color = colors[id];
-    }
+// const identifyClient = ((ws) => {
+//   const colors = ['#008E9B', '#B39CD0', '#C34A36', '#D5CABD'];
+//   return (ws) => {
+//     if (!ws.id) {
+//       const id = genereateId();
+//       ws.id = id;
+//       ws.color = colors[id];
+//     }
+//   }
+// })();
+
+const assignColor = (ws) => {
+  if (!ws.color) {
+    ws.color = generateColor();
   }
-})();
+}
 
 //return color according to ws id
-const findColor = (ws) => {
-  for(let i = 0; i <= 4; i++) {
-    if (ws.id === i) {
-      return ws.color;
-      break;
-    }
-  }
-};
+// const findColor = (ws) => {
+//   for(let i = 0; i <= 4; i++) {
+//     if (ws.id === i) {
+//       return ws.color;
+//       break;
+//     }
+//   }
+// };
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
@@ -74,7 +91,8 @@ wss.on('connection', (ws) => {
   };
 
   updateClientsNum();
-  identifyClient(ws);
+  // identifyClient(ws);
+  assignColor(ws);
 
   ws.on('message', (incomingData)=>{
     let data = JSON.parse(incomingData);
@@ -82,7 +100,8 @@ wss.on('connection', (ws) => {
       const result = checkPicSrc(data);
       data.id = uuidv4(),
       data.type = 'incomingMessage',
-      data.color = findColor(ws),
+      // data.color = findColor(ws),
+      data.color = ws.color;
       data.content = result.updatedContent,
       data.imgSrc = result.imgSrc
       wss.broadcast(JSON.stringify(data));
