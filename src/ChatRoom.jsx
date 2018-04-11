@@ -10,10 +10,10 @@ class ChatRoom extends Component {
     super(props);
     this.state = {
       currentUser: props.username,
-      color: props.color,
-      messages: [],
+      color: null,
+      clientsList: [],
       clientsNum: null,
-      clientsList: []
+      messages: []
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUser = this.changeUser.bind(this);
@@ -21,24 +21,27 @@ class ChatRoom extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount <ChatRoom />');
 
+    //once websocket is connected, send user name to server for identifying
+    //set up default name, could be change by other event
     this.ws.onopen = () => {
       const data = {
         type: 'identifier',
         newUser: this.state.currentUser
       }
-      console.log('send username through ws', data);
       this.ws.send(JSON.stringify(data));
     };
 
-    console.log('componentDidMount <ChatRoom />');
+    //send + store greeting from admin
     setTimeout(() => {
-      console.log('Simulating incoming message');
-      const newMessage = {type: 'incomingMessage', id: 0, username: 'Michelle', content: 'Hello there!'};
+      // console.log('Simulating incoming message');
+      const newMessage = {type: 'incomingMessage', id: 0, username: 'Admin', content: 'Hello there, welcome!'};
       const messages = this.state.messages.concat(newMessage);
       this.setState({messages: messages})
     }, 3000);
 
+    //when receive a message from server
     this.ws.onmessage =(event) => {
       const data = JSON.parse(event.data);
       switch (data.type) {
@@ -48,6 +51,7 @@ class ChatRoom extends Component {
         case 'clientsList':
           this.setState({ clientsList: data.clientsList});
           break;
+        //message type is imcomingMessage/incomingNotifications
         default:
           this.setState({ messages: this.state.messages.concat(data) });
       }
@@ -63,14 +67,13 @@ class ChatRoom extends Component {
     this.ws.send(JSON.stringify(newMessage));
   }
 
-  //For better user experience(going from username input to message input without press enter key)
-  //I use onBlur event instead of onKeyUp
+  //For better user experience, used onBlur event instead of onKeyUp
   changeUser(event){
     const oldUser = this.state.currentUser;
     const newUser = event.target.value;
     this.setState({currentUser: newUser});
     this.ws.send(JSON.stringify({type: 'postNotification', notification: `${oldUser} changed the name to ${newUser}`}));
-    this.ws.send(JSON.stringify({ type: 'identifier', newUser: newUser, oldUser: oldUser}));
+    this.ws.send(JSON.stringify({ type: 'identifier', newUser: newUser}));
   }
 
   render() {
