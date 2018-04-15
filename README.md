@@ -35,7 +35,8 @@ in both root directory and "chatty-server" folder.
 ![share a pic](https://github.com/GrinJessie/ChattyApp/blob/master/doc/pic.gif)
 * Leave the room
 ![leave the room](https://github.com/GrinJessie/ChattyApp/blob/master/doc/close.gif)
-
+* Tech Stacks
+![staks](https://github.com/GrinJessie/ChattyApp/blob/master/doc/chatty-stacks.png)
 
 ### Dependencies
 
